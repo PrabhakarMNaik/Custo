@@ -5,12 +5,20 @@ import psutil
 import win32process
 import win32gui
 import time
+import cv2
 
+_font        = cv2.FONT_HERSHEY_TRIPLEX
+_fontscale   = 1
+_fontthk     = 2
+_fontcolor   = (0, 0, 0)
+_textcolorbg = (255, 255, 255)
+margin       = 3
 
 root = tk.Tk()
-root.title("our program")
+root.title("Custodian")
 
 program_dict = dict()
+
 
 def active_window_process_name():
     # This produces a list of PIDs active window relates to
@@ -26,24 +34,27 @@ def active_window_process_name():
 def get_screen_name():
 
     name = active_window_process_name()
-    if name not in program_dict.keys():
-        program_dict[name] = 0
-    
-    prog_dict = '\n'.join(key +":\t"+ str(value) for key, value in program_dict.items())
+    if name not in program_dict.keys() and name != "":
+        program_dict[name] = [0, time.time()]
+    else:
+        program_dict[name][0] = program_dict[name][0] + (time.time() - program_dict[name][1])
+        program_dict[name][1] = time.time()
+
+    prog_dict = '\n'.join(key + ":\t" + str(value[0])
+                          for key, value in program_dict.items())
     NumberLabel["text"] = prog_dict
     win.after(1000, get_screen_name)
     pass
 
+
 def Start_counting():
     # I want to print the active screen name on the
     #  active screen on the foreground
-    global win 
+    global win
     win = tk.Toplevel()
-    global NumberLabel 
-    NumberLabel = tk.Label(win, font=("", 10, "bold"), fg='white')
+    global NumberLabel
+    NumberLabel = tk.Label(win, font=("", 10, "bold"), fg='white', bg="black")
     NumberLabel.pack()
-
-
 
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
@@ -57,6 +68,7 @@ def Start_counting():
 
     win.after(0, lambda: get_screen_name())
     win.mainloop()
+
 
 start_cap = tk.Button(text='start recording', command=Start_counting)
 start_cap.pack()
