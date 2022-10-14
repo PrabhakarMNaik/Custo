@@ -5,17 +5,19 @@ import psutil
 import win32process
 import win32gui
 import time
-import cv2
+
 import csv
 import datetime
-from datetime import date
+from datetime import date, timedelta
+
 
 FOLDER_PATH = "D:\Ekam\Daily_Log"
 file_name = FOLDER_PATH + "\\" + str(date.today()) + ".csv"
 
+
 def load_dict():
     try:
-        with open(file_name, mode = "r") as f:
+        with open(file_name, mode="r") as f:
             reader = csv.reader(f)
             prog_dict = dict(reader)
             for key, value in prog_dict.items():
@@ -26,17 +28,9 @@ def load_dict():
         open(file_name, "x")
         return dict()
 
-_font = cv2.FONT_HERSHEY_TRIPLEX
-_fontscale = 1
-_fontthk = 2
-_fontcolor = (0, 0, 0)
-_textcolorbg = (255, 255, 255)
-margin = 3
 
 root = tk.Tk()
 root.title("Custodian")
-
-program_dict = load_dict()
 
 
 def active_window_process_name():
@@ -51,6 +45,8 @@ def active_window_process_name():
         return ""
 
 
+program_dict = load_dict()
+
 def get_screen_name():
 
     name = active_window_process_name()
@@ -62,7 +58,7 @@ def get_screen_name():
                 (time.time() - program_dict[name][1])
             program_dict[name][1] = time.time()
 
-    prog_dict = '\n'.join(key + ":\t" + str(value[0])
+    prog_dict = '\n'.join(key + ":\t" + str(timedelta(seconds=value[0]))
                           for key, value in program_dict.items())
     NumberLabel["text"] = prog_dict
     win.after(1000, get_screen_name)
@@ -91,15 +87,16 @@ def Start_counting():
     win.after(0, lambda: get_screen_name())
     # win.mainloop()
 
+
 def Stop_counting():
-    
-    with open(file_name, mode= "w", encoding= "UTF8") as f:
+
+    with open(file_name, mode="w", encoding="UTF8") as f:
         writer = csv.writer(f, lineterminator="\n")
         for key, value in program_dict.items():
             writer.writerow([key, value[0]])
         f.close()
     root.destroy()
-    
+
 
 start_cap = tk.Button(text='start recording', command=Start_counting)
 start_cap.pack()
