@@ -1,6 +1,4 @@
 import tkinter as tk
-from turtle import window_height
-
 
 import psutil
 import win32process
@@ -9,18 +7,13 @@ import time
 import pyautogui
 
 import csv
-import datetime
+
 from datetime import date, timedelta
 
 
 FOLDER_PATH = "D:\Ekam\Daily_Log"
 file_name = FOLDER_PATH + "\\" + str(date.today()) + ".csv"
 
-
-# TODO:
-# 2. better time logging
-# 3. make executable
-# 4. add form for setting the log saving location
 
 def load_dict():
     try:
