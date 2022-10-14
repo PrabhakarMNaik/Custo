@@ -11,8 +11,8 @@ import csv
 from datetime import date, timedelta
 
 
-FOLDER_PATH = "D:\Ekam\Daily_Log"
-file_name = FOLDER_PATH + "\\" + str(date.today()) + ".csv"
+# FOLDER_PATH = "D:\Ekam\Daily_Log"
+file_name =  str(date.today()) + ".csv"
 
 
 def load_dict():
@@ -61,6 +61,8 @@ def get_screen_name():
     global prev_name
     name = active_window_process_name().split(".")[0]
     if name != "":
+        if name == "ApplicationFrameHost":
+            name = "Win App"
         if name not in program_dict.keys():
             program_dict[name] = [0, time.time()]
         else:
