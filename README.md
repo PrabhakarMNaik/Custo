@@ -4,7 +4,7 @@ Custo is your personal Custodian of time. You can keep the track of how you util
 
 The idea behind screen time monitoring is based on the [TED talk](https://youtu.be/xp0O2vi8DX4) by Tali Sharot on How to Motivate Yourself. This time tracking will positively reinforce you when you are being productive and let you know when you are not.  Custo should cover you for immediate reward and progress monitoring. 
 
-![Screen Shot](/SShot.png)
+![Screen Shot](SShot.png)
 
 By default the logs would be saved in the folder where your script lives. Feel Free to change the `FOLDER_PATH` to change it to your desired location. Might add a field to accept this path as a user input in the GUI itself in the future.  
 
