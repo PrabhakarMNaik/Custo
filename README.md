@@ -6,8 +6,6 @@ The idea behind screen time monitoring is based on the [TED talk](https://youtu.
 
 ![Screen Shot](/SShot.png)
 
-By default the logs would be saved in the folder where your script lives. Feel Free to change the `FOLDER_PATH` to change it to your desired location. Might add a field to accept this path as a user input in the GUI itself in the future.  
-
 ## Usage
 
 If you are not a programmer and don’t have a native python installation, fear not, there is an exe version for you. I haven’t encrypted it (just to be more transparent) so your virus scanner may give you some trouble. 
