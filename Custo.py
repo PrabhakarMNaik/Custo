@@ -1,18 +1,16 @@
 import tkinter as tk
 
+from tkinter.filedialog import askdirectory
 import psutil
 import win32process
 import win32gui
 import time
 import pyautogui
+import os
 
 import csv
 
 from datetime import date, timedelta
-
-
-# FOLDER_PATH = "D:\Ekam\Daily_Log"
-file_name =  str(date.today()) + ".csv"
 
 
 def load_dict():
@@ -39,15 +37,6 @@ def active_window_process_name():
         return psutil.Process(pid[-1]).name()
     except Exception:
         return ""
-
-
-root = tk.Tk()
-root.geometry("300x70")
-prev_name = active_window_process_name()
-root.title("Custodian")
-
-
-program_dict = load_dict()
 
 
 def get_screen_time(prev_name, current_name):
@@ -96,7 +85,7 @@ def Start_counting():
     global win
     win = tk.Toplevel()
     global NumberLabel
-    NumberLabel = tk.Label(win, font=("", 10, "bold"),
+    NumberLabel = tk.Label(win, font=("", 15, "bold"),
                            fg='white', bg="black")
     NumberLabel.pack(side="left")
 
@@ -109,7 +98,6 @@ def Start_counting():
 
 
 def Stop_counting():
-
     with open(file_name, mode="w", encoding="UTF8") as f:
         writer = csv.writer(f, lineterminator="\n")
         for key, value in program_dict.items():
@@ -118,10 +106,29 @@ def Stop_counting():
     root.destroy()
 
 
-start_cap = tk.Button(text='Start recording', command=Start_counting)
-start_cap.pack(pady=5)
+def get_path():
+    global file_name
+    global program_dict
 
-stop_cap = tk.Button(text='Stop recording', command=Stop_counting)
-stop_cap.pack(pady=5)
+    file_name = os.path.join(askdirectory(), str(date.today()) + ".csv")
 
-root.mainloop()
+    program_dict = load_dict()
+
+
+if __name__ == "__main__":
+
+    root = tk.Tk()
+    root.geometry("300x110")
+    prev_name = active_window_process_name()
+    root.title("Custodian")
+
+    select_dir = tk.Button(text="Log Directory", command=get_path)
+    select_dir.pack(pady=5)
+
+    start_cap = tk.Button(text='Start recording', command=Start_counting)
+    start_cap.pack(pady=5)
+
+    stop_cap = tk.Button(text='Stop recording', command=Stop_counting)
+    stop_cap.pack(pady=5)
+
+    root.mainloop()
